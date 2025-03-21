@@ -20,14 +20,15 @@ defaults
 
 frontend http_front
     bind *:80
-    redirect scheme https code 301 if !{ ssl_fc }
+    http-request redirect scheme https code 301 unless { ssl_fc }
+    default_backend http_back
 
 frontend https_front
-    bind *:443 ssl crt /etc/haproxy/certs/www.theshalom.tech.pem
+    bind *:443 ssl crt /etc/haproxy/certs/www.dk0de.tech.pem
     http-request set-header X-Forwarded-Proto https
     default_backend http_back
 
 backend http_back
     balance roundrobin
-    server 6532-web-01 3.89.108.224:80 check
-    server 6532-web-02 54.152.78.172:80 check
+    server 6383-web-01 3.89.108.224:80 check
+    server 6383-web-02 54.152.78.172:80 check
